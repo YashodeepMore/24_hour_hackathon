@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Financial Education Modules</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h5 class="card-title">Budgeting Basics</h5>
+                                <p class="card-text">Learn how to create and maintain a business budget.</p>
+                                <div class="progress mb-3">
+                                    <div class="progress-bar" role="progressbar" style="width: 0%"></div>
+                                </div>
+                                <button class="btn btn-primary start-module" data-module="budgeting">Start Module</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h5 class="card-title">Cash Flow Management</h5>
+                                <p class="card-text">Understand how to manage your business cash flow effectively.</p>
+                                <div class="progress mb-3">
+                                    <div class="progress-bar" role="progressbar" style="width: 0%"></div>
+                                </div>
+                                <button class="btn btn-primary start-module" data-module="cashflow">Start Module</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h5 class="card-title">Credit Management</h5>
+                                <p class="card-text">Learn about credit scores and how to improve them.</p>
+                                <div class="progress mb-3">
+                                    <div class="progress-bar" role="progressbar" style="width: 0%"></div>
+                                </div>
+                                <button class="btn btn-primary start-module" data-module="credit">Start Module</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Module Content</h5>
+            </div>
+            <div class="card-body">
+                <div id="module-content">
+                    <div class="text-center text-muted">
+                        <p>Select a module to begin learning</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const modules = {
+        budgeting: [
+            { title: "Introduction to Budgeting", content: "Learn the basics of creating a business budget..." },
+            { title: "Income Tracking", content: "How to track and categorize your business income..." },
+            { title: "Expense Management", content: "Best practices for managing business expenses..." }
+        ],
+        cashflow: [
+            { title: "Understanding Cash Flow", content: "What is cash flow and why is it important..." },
+            { title: "Cash Flow Forecasting", content: "How to predict and plan for future cash needs..." },
+            { title: "Managing Cash Shortages", content: "Strategies for handling cash flow challenges..." }
+        ],
+        credit: [
+            { title: "Credit Score Basics", content: "What is a credit score and how is it calculated..." },
+            { title: "Improving Your Credit", content: "Practical steps to improve your business credit..." },
+            { title: "Credit Management Tools", content: "Tools and resources for managing credit..." }
+        ]
+    };
+    
+    let currentModule = null;
+    let currentStep = 0;
+    
+    document.querySelectorAll('.start-module').forEach(button => {
+        button.addEventListener('click', function() {
+            currentModule = this.dataset.module;
+            currentStep = 0;
+            showModuleContent();
+        });
+    });
+    
+    function showModuleContent() {
+        const contentDiv = document.getElementById('module-content');
+        const module = modules[currentModule];
+        const step = module[currentStep];
+        
+        contentDiv.innerHTML = `
+            <h3>${step.title}</h3>
+            <p>${step.content}</p>
+            <div class="d-flex justify-content-between mt-4">
+                <button class="btn btn-secondary" ${currentStep === 0 ? 'disabled' : ''} onclick="previousStep()">Previous</button>
+                <button class="btn btn-primary" ${currentStep === module.length - 1 ? 'disabled' : ''} onclick="nextStep()">Next</button>
+            </div>
+        `;
+        
+        // Update progress bar
+        const progress = ((currentStep + 1) / module.length) * 100;
+        document.querySelector(`[data-module="${currentModule}"]`).closest('.card').querySelector('.progress-bar').style.width = `${progress}%`;
+    }
+    
+    window.previousStep = function() {
+        if (currentStep > 0) {
+            currentStep--;
+            showModuleContent();
+        }
+    };
+    
+    window.nextStep = function() {
+        if (currentStep < modules[currentModule].length - 1) {
+            currentStep++;
+            showModuleContent();
+        }
+    };
+});
+</script>
+{% endblock %} 

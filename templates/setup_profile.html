@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Complete Your Business Profile</h5>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="{{ url_for('setup_profile') }}">
+                    <h6 class="mb-3">Business Information</h6>
+                    <div class="mb-3">
+                        <label for="business_id" class="form-label">Business ID</label>
+                        <input type="text" class="form-control" id="business_id" name="business_id" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="business_type" class="form-label">Business Type</label>
+                        <select class="form-select" id="business_type" name="business_type" required>
+                            <option value="">Select your business type</option>
+                            <option value="retail">Retail</option>
+                            <option value="food">Food & Beverage</option>
+                            <option value="service">Service</option>
+                            <option value="manufacturing">Manufacturing</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="industry" class="form-label">Industry</label>
+                        <input type="text" class="form-control" id="industry" name="industry" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="years_active" class="form-label">Years Active</label>
+                        <input type="number" class="form-control" id="years_active" name="years_active" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="num_employees" class="form-label">Number of Employees</label>
+                        <input type="number" class="form-control" id="num_employees" name="num_employees" required>
+                    </div>
+
+                    <h6 class="mb-3 mt-4">Financial Information</h6>
+                    <div class="mb-3">
+                        <label for="annual_revenue" class="form-label">Annual Revenue ($)</label>
+                        <input type="number" step="0.01" class="form-control" id="annual_revenue" name="annual_revenue" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="net_profit_margin" class="form-label">Net Profit Margin (%)</label>
+                        <input type="number" step="0.01" class="form-control" id="net_profit_margin" name="net_profit_margin" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="total_assets" class="form-label">Total Assets ($)</label>
+                        <input type="number" step="0.01" class="form-control" id="total_assets" name="total_assets" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="total_liabilities" class="form-label">Total Liabilities ($)</label>
+                        <input type="number" step="0.01" class="form-control" id="total_liabilities" name="total_liabilities" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="cash_flow" class="form-label">Cash Flow ($)</label>
+                        <input type="number" step="0.01" class="form-control" id="cash_flow" name="cash_flow" required>
+                    </div>
+
+                    <h6 class="mb-3 mt-4">Credit Information</h6>
+                    <div class="mb-3">
+                        <label for="credit_history_length" class="form-label">Credit History Length (years)</label>
+                        <input type="number" class="form-control" id="credit_history_length" name="credit_history_length" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="late_payments" class="form-label">Late Payments</label>
+                        <input type="number" class="form-control" id="late_payments" name="late_payments" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="credit_utilization" class="form-label">Credit Utilization (%)</label>
+                        <input type="number" step="0.01" class="form-control" id="credit_utilization" name="credit_utilization" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="bankruptcy_flag" class="form-label">Bankruptcy History</label>
+                        <select class="form-select" id="bankruptcy_flag" name="bankruptcy_flag" required>
+                            <option value="false">No</option>
+                            <option value="true">Yes</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100">Complete Profile</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

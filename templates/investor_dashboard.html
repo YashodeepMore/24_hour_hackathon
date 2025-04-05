@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-12">
+            <h2 class="mb-4">Investor Dashboard</h2>
+        </div>
+    </div>
+
+    <!-- Investment Overview -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card bg-primary text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Total Investments</h5>
+                    <h3 class="card-text">${{ total_investments }}</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-success text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Active Investments</h5>
+                    <h3 class="card-text">{{ active_investments }}</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-info text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Average Return</h5>
+                    <h3 class="card-text">{{ avg_return }}%</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-warning text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Risk Score</h5>
+                    <h3 class="card-text">{{ risk_score }}</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Business Portfolio -->
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Business Portfolio</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Business</th>
+                                    <th>Investment Amount</th>
+                                    <th>Return Rate</th>
+                                    <th>Risk Score</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for investment in investments %}
+                                <tr>
+                                    <td>{{ investment.business.username }}</td>
+                                    <td>${{ investment.amount }}</td>
+                                    <td>{{ investment.return_rate }}%</td>
+                                    <td>{{ investment.risk_score }}</td>
+                                    <td>
+                                        <span class="badge bg-{{ 'success' if investment.status == 'active' else 'secondary' }}">
+                                            {{ investment.status }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <a href="{{ url_for('business_profile', business_id=investment.business.id) }}" 
+                                           class="btn btn-sm btn-info">View Profile</a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Available Businesses -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Available Businesses</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Business</th>
+                                    <th>Industry</th>
+                                    <th>Credit Score</th>
+                                    <th>Risk Level</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for business in available_businesses %}
+                                <tr>
+                                    <td>{{ business.username }}</td>
+                                    <td>{{ business.industry }}</td>
+                                    <td>{{ business.credit_score }}</td>
+                                    <td>
+                                        <span class="badge bg-{{ 'success' if business.risk_level == 'low' else 'warning' if business.risk_level == 'medium' else 'danger' }}">
+                                            {{ business.risk_level }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <a href="{{ url_for('business_profile', business_id=business.id) }}" 
+                                           class="btn btn-sm btn-primary">View Details</a>
+                                        <a href="{{ url_for('invest', business_id=business.id) }}" 
+                                           class="btn btn-sm btn-success">Invest</a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

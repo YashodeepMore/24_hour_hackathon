@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">Business Profile</h1>
+    
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Basic Information</h5>
+                    <form method="POST" action="{{ url_for('update_profile') }}">
+                        <div class="mb-3">
+                            <label for="business_id" class="form-label">Business ID</label>
+                            <input type="text" class="form-control" id="business_id" name="business_id" value="{{ user.business_id }}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="business_type" class="form-label">Business Type</label>
+                            <input type="text" class="form-control" id="business_type" name="business_type" value="{{ user.business_type }}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="industry" class="form-label">Industry</label>
+                            <select class="form-select" id="industry" name="industry" required>
+                                <option value="Technology" {% if user.industry == 'Technology' %}selected{% endif %}>Technology</option>
+                                <option value="Healthcare" {% if user.industry == 'Healthcare' %}selected{% endif %}>Healthcare</option>
+                                <option value="E-commerce" {% if user.industry == 'E-commerce' %}selected{% endif %}>E-commerce</option>
+                                <option value="Manufacturing" {% if user.industry == 'Manufacturing' %}selected{% endif %}>Manufacturing</option>
+                                <option value="Retail" {% if user.industry == 'Retail' %}selected{% endif %}>Retail</option>
+                                <option value="Agriculture" {% if user.industry == 'Agriculture' %}selected{% endif %}>Agriculture</option>
+                                <option value="Other" {% if user.industry == 'Other' %}selected{% endif %}>Other</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="years_active" class="form-label">Years Active</label>
+                            <input type="number" class="form-control" id="years_active" name="years_active" value="{{ user.years_active }}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="num_employees" class="form-label">Number of Employees</label>
+                            <input type="number" class="form-control" id="num_employees" name="num_employees" value="{{ user.num_employees }}" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Update Basic Information</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Financial Information</h5>
+                    <form method="POST" action="{{ url_for('update_profile') }}">
+                        <div class="mb-3">
+                            <label for="annual_revenue" class="form-label">Annual Revenue ($)</label>
+                            <input type="number" class="form-control" id="annual_revenue" name="annual_revenue" value="{{ user.annual_revenue }}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="net_profit_margin" class="form-label">Net Profit Margin (%)</label>
+                            <input type="number" step="0.01" class="form-control" id="net_profit_margin" name="net_profit_margin" value="{{ user.net_profit_margin }}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="total_assets" class="form-label">Total Assets ($)</label>
+                            <input type="number" class="form-control" id="total_assets" name="total_assets" value="{{ user.total_assets }}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="total_liabilities" class="form-label">Total Liabilities ($)</label>
+                            <input type="number" class="form-control" id="total_liabilities" name="total_liabilities" value="{{ user.total_liabilities }}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="cash_flow" class="form-label">Cash Flow ($)</label>
+                            <input type="number" class="form-control" id="cash_flow" name="cash_flow" value="{{ user.cash_flow }}" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Update Financial Information</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Credit Information</h5>
+                    <form method="POST" action="{{ url_for('update_profile') }}">
+                        <div class="mb-3">
+                            <label for="credit_history_length" class="form-label">Credit History Length (years)</label>
+                            <input type="number" class="form-control" id="credit_history_length" name="credit_history_length" value="{{ user.credit_history_length }}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="late_payments" class="form-label">Late Payments (last 12 months)</label>
+                            <input type="number" class="form-control" id="late_payments" name="late_payments" value="{{ user.late_payments }}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="credit_utilization" class="form-label">Credit Utilization (%)</label>
+                            <input type="number" step="0.01" class="form-control" id="credit_utilization" name="credit_utilization" value="{{ user.credit_utilization }}" required>
+                        </div>
+                        <div class="mb-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="bankruptcy_flag" name="bankruptcy_flag" {% if user.bankruptcy_flag %}checked{% endif %}>
+                                <label class="form-check-label" for="bankruptcy_flag">
+                                    Bankruptcy History
+                                </label>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Update Credit Information</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Account Information</h5>
+                    <form method="POST" action="{{ url_for('update_profile') }}">
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Username</label>
+                            <input type="text" class="form-control" id="username" name="username" value="{{ user.username }}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" name="email" value="{{ user.email }}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">New Password (leave blank to keep current)</label>
+                            <input type="password" class="form-control" id="password" name="password">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Update Account Information</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

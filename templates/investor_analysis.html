@@ -1,0 +1,222 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">Investor Analysis</h1>
+    
+    <!-- Overall Investment Score -->
+    <div class="card mb-4">
+        <div class="card-body text-center">
+            <h2 class="card-title">Investment Score</h2>
+            <div class="display-4 mb-3 {% if metrics.investment_score >= 70 %}text-success{% elif metrics.investment_score >= 50 %}text-warning{% else %}text-danger{% endif %}">
+                {{ metrics.investment_score }}/100
+            </div>
+            <div class="progress mb-3" style="height: 30px;">
+                <div class="progress-bar {% if metrics.investment_score >= 70 %}bg-success{% elif metrics.investment_score >= 50 %}bg-warning{% else %}bg-danger{% endif %}" 
+                     role="progressbar" 
+                     style="width: {{ metrics.investment_score }}%"
+                     aria-valuenow="{{ metrics.investment_score }}" 
+                     aria-valuemin="0" 
+                     aria-valuemax="100">
+                </div>
+            </div>
+            <p class="text-muted">
+                {% if metrics.investment_score >= 70 %}
+                    Strong Investment Potential
+                {% elif metrics.investment_score >= 50 %}
+                    Moderate Investment Potential
+                {% else %}
+                    High Risk Investment
+                {% endif %}
+            </p>
+        </div>
+    </div>
+
+    <!-- Key Metrics -->
+    <div class="row">
+        <!-- Income Consistency -->
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Income Consistency</h5>
+                    <div class="progress mb-3">
+                        <div class="progress-bar bg-success" role="progressbar" 
+                             style="width: {{ metrics.income_consistency }}%"
+                             aria-valuenow="{{ metrics.income_consistency }}" 
+                             aria-valuemin="0" 
+                             aria-valuemax="100">
+                            {{ metrics.income_consistency }}%
+                        </div>
+                    </div>
+                    <p class="card-text">
+                        Measures the stability of monthly income over the last 6 months.
+                        Higher scores indicate more consistent revenue streams.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Profit Margin -->
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Profit Margin</h5>
+                    <div class="progress mb-3">
+                        <div class="progress-bar bg-info" role="progressbar" 
+                             style="width: {{ metrics.profit_margin }}%"
+                             aria-valuenow="{{ metrics.profit_margin }}" 
+                             aria-valuemin="0" 
+                             aria-valuemax="100">
+                            {{ metrics.profit_margin }}%
+                        </div>
+                    </div>
+                    <p class="card-text">
+                        Net profit margin indicates the business's ability to convert revenue into profit.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cash Flow -->
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Cash Flow</h5>
+                    <div class="progress mb-3">
+                        <div class="progress-bar {% if metrics.cash_flow > 0 %}bg-success{% else %}bg-danger{% endif %}" 
+                             role="progressbar" 
+                             style="width: {{ metrics.cash_flow|abs }}%"
+                             aria-valuenow="{{ metrics.cash_flow }}" 
+                             aria-valuemin="0" 
+                             aria-valuemax="100">
+                            {{ metrics.cash_flow }}%
+                        </div>
+                    </div>
+                    <p class="card-text">
+                        Positive cash flow indicates the business can meet its financial obligations.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Spending Volatility -->
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Spending Volatility</h5>
+                    <div class="progress mb-3">
+                        <div class="progress-bar bg-warning" role="progressbar" 
+                             style="width: {{ metrics.spending_volatility }}%"
+                             aria-valuenow="{{ metrics.spending_volatility }}" 
+                             aria-valuemin="0" 
+                             aria-valuemax="100">
+                            {{ metrics.spending_volatility }}%
+                        </div>
+                    </div>
+                    <p class="card-text">
+                        Lower volatility indicates more predictable and controlled spending patterns.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Savings Rate -->
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Savings Rate</h5>
+                    <div class="progress mb-3">
+                        <div class="progress-bar bg-primary" role="progressbar" 
+                             style="width: {{ metrics.savings_rate }}%"
+                             aria-valuenow="{{ metrics.savings_rate }}" 
+                             aria-valuemin="0" 
+                             aria-valuemax="100">
+                            {{ metrics.savings_rate }}%
+                        </div>
+                    </div>
+                    <p class="card-text">
+                        Higher savings rates indicate better financial discipline and growth potential.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Credit Health -->
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Credit Health</h5>
+                    <div class="progress mb-3">
+                        <div class="progress-bar {% if metrics.credit_utilization < 30 %}bg-success{% elif metrics.credit_utilization < 70 %}bg-warning{% else %}bg-danger{% endif %}" 
+                             role="progressbar" 
+                             style="width: {{ metrics.credit_utilization }}%"
+                             aria-valuenow="{{ metrics.credit_utilization }}" 
+                             aria-valuemin="0" 
+                             aria-valuemax="100">
+                            {{ metrics.credit_utilization }}%
+                        </div>
+                    </div>
+                    <p class="card-text">
+                        Credit utilization and payment history indicate responsible credit management.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Industry Analysis -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="card-title">Industry Analysis</h5>
+            <div class="row">
+                <div class="col-md-6">
+                    <p><strong>Industry:</strong> {{ user.industry }}</p>
+                    <p><strong>Years Active:</strong> {{ metrics.years_active }}</p>
+                </div>
+                <div class="col-md-6">
+                    <div class="progress mb-3">
+                        <div class="progress-bar bg-info" role="progressbar" 
+                             style="width: {{ metrics.industry_growth }}%"
+                             aria-valuenow="{{ metrics.industry_growth }}" 
+                             aria-valuemin="0" 
+                             aria-valuemax="100">
+                            Industry Growth Potential: {{ metrics.industry_growth }}%
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Investment Recommendations -->
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Investment Recommendations</h5>
+            <ul class="list-group list-group-flush">
+                {% if metrics.investment_score >= 70 %}
+                    <li class="list-group-item text-success">
+                        <i class="fas fa-check-circle"></i> Strong investment potential with consistent performance
+                    </li>
+                    <li class="list-group-item text-success">
+                        <i class="fas fa-check-circle"></i> Consider long-term investment opportunities
+                    </li>
+                {% elif metrics.investment_score >= 50 %}
+                    <li class="list-group-item text-warning">
+                        <i class="fas fa-exclamation-circle"></i> Moderate risk with potential for growth
+                    </li>
+                    <li class="list-group-item text-warning">
+                        <i class="fas fa-exclamation-circle"></i> Consider phased investment approach
+                    </li>
+                {% else %}
+                    <li class="list-group-item text-danger">
+                        <i class="fas fa-times-circle"></i> High risk investment - requires careful consideration
+                    </li>
+                    <li class="list-group-item text-danger">
+                        <i class="fas fa-times-circle"></i> Consider short-term investment with clear exit strategy
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %} 

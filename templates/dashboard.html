@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Dashboard</h2>
+    
+    <!-- Credit Score Card -->
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Credit Score</h5>
+                </div>
+                <div class="card-body">
+                    <div class="text-center">
+                        <h1 class="display-4">{{ credit_score }}</h1>
+                        <div class="progress mb-3">
+                            <div class="progress-bar {% if credit_score >= 700 %}bg-success{% elif credit_score >= 600 %}bg-warning{% else %}bg-danger{% endif %}" 
+                                 role="progressbar" 
+                                 style="width: {{ (credit_score - 300) / 5.5 }}%"
+                                 aria-valuenow="{{ credit_score }}" 
+                                 aria-valuemin="300" 
+                                 aria-valuemax="850">
+                            </div>
+                        </div>
+                        <p class="text-muted">Range: 300-850</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Risk Score</h5>
+                </div>
+                <div class="card-body">
+                    <div class="text-center">
+                        <h1 class="display-4">{{ risk_score|round|int }}</h1>
+                        <div class="progress mb-3">
+                            <div class="progress-bar {% if risk_score <= 30 %}bg-success{% elif risk_score <= 60 %}bg-warning{% else %}bg-danger{% endif %}" 
+                                 role="progressbar" 
+                                 style="width: {{ risk_score }}%"
+                                 aria-valuenow="{{ risk_score }}" 
+                                 aria-valuemin="0" 
+                                 aria-valuemax="100">
+                            </div>
+                        </div>
+                        <p class="text-muted">Range: 0-100 (Lower is better)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Financial Summary -->
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Financial Summary</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-6">
+                            <h6>Annual Income</h6>
+                            <p class="text-success">${{ "%.2f"|format(cash_flow_metrics.monthly_avg_income * 12) }}</p>
+                        </div>
+                        <div class="col-6">
+                            <h6>Annual Expenses</h6>
+                            <p class="text-danger">${{ "%.2f"|format(cash_flow_metrics.monthly_avg_expense * 12) }}</p>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-6">
+                            <h6>Annual Cash Flow</h6>
+                            <p class="{% if cash_flow_metrics.annual_cash_flow >= 0 %}text-success{% else %}text-danger{% endif %}">
+                                ${{ "%.2f"|format(cash_flow_metrics.annual_cash_flow) }}
+                            </p>
+                        </div>
+                        <div class="col-6">
+                            <h6>Operating Cash Flow</h6>
+                            <p class="{% if cash_flow_metrics.operating_cash_flow >= 0 %}text-success{% else %}text-danger{% endif %}">
+                                ${{ "%.2f"|format(cash_flow_metrics.operating_cash_flow) }}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-12">
+                            <h6>Cash Flow Consistency</h6>
+                            <div class="progress">
+                                <div class="progress-bar {% if cash_flow_metrics.cash_flow_consistency >= 70 %}bg-success{% elif cash_flow_metrics.cash_flow_consistency >= 40 %}bg-warning{% else %}bg-danger{% endif %}" 
+                                     role="progressbar" 
+                                     style="width: {{ cash_flow_metrics.cash_flow_consistency }}%"
+                                     aria-valuenow="{{ cash_flow_metrics.cash_flow_consistency }}" 
+                                     aria-valuemin="0" 
+                                     aria-valuemax="100">
+                                    {{ "%.1f"|format(cash_flow_metrics.cash_flow_consistency) }}%
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Recent Transactions</h5>
+                </div>
+                <div class="card-body">
+                    {% if transactions %}
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Type</th>
+                                        <th>Amount</th>
+                                        <th>Category</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for transaction in transactions %}
+                                    <tr>
+                                        <td>{{ transaction.date.strftime('%Y-%m-%d') }}</td>
+                                        <td>
+                                            <span class="badge {% if transaction.type == 'income' %}bg-success{% else %}bg-danger{% endif %}">
+                                                {{ transaction.type }}
+                                            </span>
+                                        </td>
+                                        <td>${{ "%.2f"|format(transaction.amount) }}</td>
+                                        <td>{{ transaction.category }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <p class="text-muted">No recent transactions</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

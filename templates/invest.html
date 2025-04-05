@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Invest in {{ business.username }}</h4>
+                </div>
+                <div class="card-body">
+                    <div class="mb-4">
+                        <h5>Business Information</h5>
+                        <table class="table">
+                            <tr>
+                                <th>Industry:</th>
+                                <td>{{ business.industry }}</td>
+                            </tr>
+                            <tr>
+                                <th>Credit Score:</th>
+                                <td>{{ business.credit_score }}</td>
+                            </tr>
+                            <tr>
+                                <th>Risk Level:</th>
+                                <td>
+                                    <span class="badge bg-{{ 'success' if business.risk_level == 'low' else 'warning' if business.risk_level == 'medium' else 'danger' }}">
+                                        {{ business.risk_level }}
+                                    </span>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <form method="POST" action="{{ url_for('invest', business_id=business.id) }}">
+                        <div class="mb-3">
+                            <label for="amount" class="form-label">Investment Amount</label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input type="number" class="form-control" id="amount" name="amount" 
+                                       min="100" max="{{ current_user.max_investment_amount }}" required>
+                            </div>
+                            <small class="text-muted">Maximum investment amount: ${{ current_user.max_investment_amount }}</small>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Estimated Return Rate</label>
+                            <div class="alert alert-info">
+                                Based on the business's metrics, the estimated return rate is approximately 
+                                <strong>{{ return_rate }}%</strong> annually.
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Risk Assessment</label>
+                            <div class="alert alert-{{ 'success' if risk_score < 30 else 'warning' if risk_score < 70 else 'danger' }}">
+                                Risk Score: <strong>{{ risk_score }}/100</strong>
+                                <br>
+                                {{ 'Low risk investment' if risk_score < 30 else 'Medium risk investment' if risk_score < 70 else 'High risk investment' }}
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary">Confirm Investment</button>
+                            <a href="{{ url_for('business_profile', business_id=business.id) }}" 
+                               class="btn btn-secondary">Back to Profile</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

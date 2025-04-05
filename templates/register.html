@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Registration</h4>
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="{{ url_for('register') }}">
+                        <div class="mb-3">
+                            <label for="user_type" class="form-label">I want to register as:</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="user_type" id="business" value="business" checked>
+                                <label class="form-check-label" for="business">
+                                    Business Owner
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="user_type" id="investor" value="investor">
+                                <label class="form-check-label" for="investor">
+                                    Investor
+                                </label>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Username</label>
+                            <input type="text" class="form-control" id="username" name="username" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" name="email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="password" name="password" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="confirm_password" class="form-label">Confirm Password</label>
+                            <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
+                        </div>
+                        
+                        <!-- Business-specific fields -->
+                        <div id="business_fields">
+                            <div class="mb-3">
+                                <label for="business_type" class="form-label">Business Type</label>
+                                <input type="text" class="form-control" id="business_type" name="business_type">
+                            </div>
+                            <div class="mb-3">
+                                <label for="industry" class="form-label">Industry</label>
+                                <input type="text" class="form-control" id="industry" name="industry">
+                            </div>
+                        </div>
+                        
+                        <!-- Investor-specific fields -->
+                        <div id="investor_fields" style="display: none;">
+                            <div class="mb-3">
+                                <label for="investment_preference" class="form-label">Investment Preference</label>
+                                <select class="form-select" id="investment_preference" name="investment_preference">
+                                    <option value="low_risk">Low Risk</option>
+                                    <option value="medium_risk">Medium Risk</option>
+                                    <option value="high_risk">High Risk</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="investment_amount" class="form-label">Maximum Investment Amount</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">$</span>
+                                    <input type="number" class="form-control" id="investment_amount" name="investment_amount">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary w-100">Register</button>
+                    </form>
+                </div>
+                <div class="card-footer text-center">
+                    <p class="mb-0">Already have an account? <a href="{{ url_for('login') }}">Login</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const businessRadio = document.getElementById('business');
+    const investorRadio = document.getElementById('investor');
+    const businessFields = document.getElementById('business_fields');
+    const investorFields = document.getElementById('investor_fields');
+    
+    function toggleFields() {
+        if (businessRadio.checked) {
+            businessFields.style.display = 'block';
+            investorFields.style.display = 'none';
+        } else {
+            businessFields.style.display = 'none';
+            investorFields.style.display = 'block';
+        }
+    }
+    
+    businessRadio.addEventListener('change', toggleFields);
+    investorRadio.addEventListener('change', toggleFields);
+    
+    // Initial state
+    toggleFields();
+});
+</script>
+{% endblock %} 

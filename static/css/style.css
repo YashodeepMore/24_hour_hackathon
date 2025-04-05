@@ -1,0 +1,85 @@
+/* General Styles */
+body {
+    background-color: #f8f9fa;
+}
+
+.card {
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    border: none;
+}
+
+.card-header {
+    background-color: #fff;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+/* Credit Score Circle */
+.credit-score-circle {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background-color: #f8f9fa;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    border: 5px solid #007bff;
+}
+
+.credit-score-circle h2 {
+    margin: 0;
+    font-size: 2.5rem;
+    color: #007bff;
+}
+
+.credit-score-circle p {
+    margin: 0;
+    color: #6c757d;
+}
+
+/* Transaction Table */
+.table th {
+    border-top: none;
+    background-color: #f8f9fa;
+}
+
+.badge {
+    padding: 0.5em 0.75em;
+}
+
+/* Forms */
+.form-control:focus {
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* Progress Bars */
+.progress {
+    height: 0.5rem;
+}
+
+/* Financial Education Modules */
+.module-card {
+    transition: transform 0.2s;
+}
+
+.module-card:hover {
+    transform: translateY(-5px);
+}
+
+#module-content {
+    min-height: 200px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .credit-score-circle {
+        width: 120px;
+        height: 120px;
+    }
+    
+    .credit-score-circle h2 {
+        font-size: 2rem;
+    }
+} 
